@@ -11,7 +11,7 @@ exports.postedSignUpForm = (req, res) => {
 };
 
 exports.postedLikeUpForm = (req, res) => {
-  res.render("thanks");
+  res.render("liked_thanks");
 };
 
 
