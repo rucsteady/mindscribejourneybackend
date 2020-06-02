@@ -3,3 +3,7 @@ body {
     color: white;
 }
 
+.boxi {
+    width: 500px;
+    float: left;
+}

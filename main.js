@@ -17,6 +17,7 @@ app.get("/likes", homeController.showLikes);
 app.get("/shirts", homeController.getShirts);
 app.get("/contact", homeController.showSignUp);
 app.post("/contact", homeController.postedSignUpForm);
+app.post("/", homeController.postedLikeUpForm);
 
 app.listen(app.get("port"), () => {
   console.log(`Server running at port: ${app.get("port")}`);
