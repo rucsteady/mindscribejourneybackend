@@ -1,0 +1,16 @@
+<div
+  class="w3-container w3-content w3-padding-64"
+  style="max-width: 800px;"
+  id="contact"
+>
+  <h2 class="w3-wide w3-center">LIKES</h2>
+  <p class="w3-opacity w3-center"><i>We got some likes</i></p>
+  <div class="w3-row w3-center" style="font-size: large;">
+    <br /><br /><br />
+    <h1>fresh likes</h1>
+    <% sharedLikes.forEach(like => { %>
+    <h5><%=like.title %> to <%=like.like %></h5>
+    
+    <% }); %>
+  </div>
+</div>
