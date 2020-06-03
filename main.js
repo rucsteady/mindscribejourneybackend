@@ -2,14 +2,19 @@ const express = require("express"),
   app = express(),
   homeController = require("./controllers/homeController"),
   errorController = require("./controllers/errorController"),
-  likersController = require("./controllers/likersController"),
   mongoose = require("mongoose"),
+  likersController = require("./controllers/likersController"),
+  Liker = require("./models/liker"),
   layouts = require("express-ejs-layouts");
 
-mongoose.connect("mongodb://localhost:27017/todaydb", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  process.env.MONGODB_URI ||
+    "mongodb://nils12:nils12@ds157707.mlab.com:57707/heroku_1bw65rfv",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 const db = mongoose.connection;
 
 db.once("open", () => {
@@ -26,12 +31,27 @@ app.set("view engine", "ejs");
 
 app.get("/", homeController.getIndex);
 
-app.get("/likers", likersController.getAllLikers, (req, res, next) => {
+/*
+Liker.create(
+  {
+    name: "Nele",
+    message: "Ella",
+  },
+
+  function (error, savedDocument) {
+    if (error) console.log(error);
+    console.log(savedDocument);
+  }
+);
+*/
+
+
+app.get("/likes", likersController.getAllLikers, (req, res, next) => {
   console.log(req.data);
-  res.send(req.data);
+  res.render("likers", { likers: req.data });
 });
 
-app.get("/likes", homeController.showLikes);
+// app.get("/likes", homeController.showLikes);
 app.get("/shirts", homeController.getShirts);
 
 app.get("/contact", homeController.showSignUp);

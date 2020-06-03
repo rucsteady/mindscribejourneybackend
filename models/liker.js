@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+"use strict";
 
-const likeSchema = mongoose.Schema({
+const mongoose = require("mongoose"),
+ likeSchema = mongoose.Schema({  
   name: String,
   message: String,
 });
