@@ -5,5 +5,5 @@ const likeSchema = mongoose.Schema({
   message: String,
 });
 
-module.exports= mongoose.model("Liker", likeSchema);
+module.exports = mongoose.model("Liker", likeSchema);
 
