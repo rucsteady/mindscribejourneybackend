@@ -8,9 +8,8 @@
   <div class="w3-row w3-center" style="font-size: large;">
     <br /><br /><br />
     <h1>fresh likes</h1>
-    <% sharedLikes.forEach(like => { %>
-    <h5><%=like.title %> to <%=like.like %>, <%=like.name %></h5>
-
+    <% likers.forEach(like => { %>
+        <h5><%=like.name %> likes <%=like.message %></h5>
     <% }); %>
   </div>
 </div>
