@@ -14,7 +14,6 @@ exports.postedLikeUpForm = (req, res) => {
   res.render("liked_thanks");
 };
 
-
 exports.getIndex = (req, res) => {
   res.render("index");
 };
