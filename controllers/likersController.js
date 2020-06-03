@@ -1,4 +1,4 @@
-const Liker = require("../models/like");
+const Liker = require("../models/liker");
 
 exports.getAllLikers = (req, res, next) => {
   Liker.find({}, (error, likers) => {
