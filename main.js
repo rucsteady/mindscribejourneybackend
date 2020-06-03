@@ -56,6 +56,7 @@ app.get("/shirts", homeController.getShirts);
 
 app.get("/contact", homeController.showSignUp);
 app.post("/contact", homeController.postedSignUpForm);
+
 app.post("/", homeController.postedLikeUpForm);
 
 app.use(errorController.respondInternalError);

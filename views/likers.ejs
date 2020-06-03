@@ -9,7 +9,9 @@
     <br /><br /><br />
     <h1>fresh likes</h1>
     <% likers.forEach(like => { %>
-        <h5><%=like.name %> likes <%=like.message %></h5>
+    <h5 style="border-top: 0.5px solid #fff; margin: 15px; padding-top: 20px;">
+      <%=like.name %> likes <%=like.message %>
+    </h5>
     <% }); %>
   </div>
 </div>
