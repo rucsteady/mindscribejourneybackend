@@ -2,12 +2,21 @@
 
 const Liker = require("../models/liker");
 
-exports.getAllLikers = (req, res, next) => {
-  Liker.find({}, (error, likers) => {
-    if (error) next(error);
-    req.data = likers;
-    next();
-  });
+exports.getAllLikers = (req, res) => {
+  Liker.find({})
+    .exec()
+    .then((likers) => {
+      res.render("likes", {
+        likers: likers,
+      });
+    })
+    .catch((error) => {
+      console.log(error.message);
+      return [];
+    })
+    .then(() => {
+      console.log("promise complete");
+    });
 };
 
 exports.saveLiker = (req, res) => {
@@ -15,8 +24,16 @@ exports.saveLiker = (req, res) => {
     name: req.body.name,
     message: req.body.message,
   });
-  newLiker.save((error, result) => {
-    if (error) res.send(error);
-    res.render("thanks");
+  newLiker.save().then((result) => {
+    Liker.find({})
+      .exec()
+      .then((likers) => {
+        res.render("likes", {
+          likers: likers,
+        });
+      })
+      .catch((error) => {
+        if (error) res.send(error);
+      });
   });
 };
