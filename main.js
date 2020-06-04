@@ -30,34 +30,26 @@ app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 
 app.get("/", homeController.getIndex);
+app.post("/", likersController.saveLiker);
 
 /*
-Liker.create(
-  {
-    name: "Nele",
-    message: "Ella",
-  },
-
-  function (error, savedDocument) {
-    if (error) console.log(error);
-    console.log(savedDocument);
-  }
-);
+Liker.deleteMany()
+.exec()
+.then(() => {
+  console.log("Likers database is now empty");
+});
 */
-
 
 app.get("/likes", likersController.getAllLikers, (req, res, next) => {
   console.log(req.data);
-  res.render("likers", { likers: req.data });
+  res.render("likes", { likers: req.data });
 });
 
-// app.get("/likes", homeController.showLikes);
 app.get("/shirts", homeController.getShirts);
 
 app.get("/contact", homeController.showSignUp);
 app.post("/contact", homeController.postedSignUpForm);
 
-app.post("/", homeController.postedLikeUpForm);
 
 app.use(errorController.respondInternalError);
 app.use(errorController.respondNoResourceFound);
