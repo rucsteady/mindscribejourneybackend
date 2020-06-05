@@ -4,6 +4,7 @@ const express = require("express"),
   errorController = require("./controllers/errorController"),
   mongoose = require("mongoose"),
   likersController = require("./controllers/likersController"),
+  subscribersController = require("./controllers/subscribersController"),
   Liker = require("./models/liker"),
   layouts = require("express-ejs-layouts");
 
@@ -27,7 +28,6 @@ app.use(express.json());
 app.use(layouts);
 app.use(express.static("public"));
 
-
 app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 
@@ -45,11 +45,11 @@ Liker.deleteMany()
 app.get("/likes", likersController.getAllLikers);
 app.get("/shirts", homeController.getShirts);
 app.get("/contact", homeController.showSignUp);
-app.post("/contact", homeController.postedSignUpForm);
+app.get("/subscribers", subscribersController.getAllSubscribers),
+app.post("/contact", subscribersController.saveSubscriber);
 
 app.use(errorController.respondInternalError);
 app.use(errorController.respondNoResourceFound);
-
 
 app.listen(app.get("port"), () => {
   console.log(`Server running at port: ${app.get("port")}`);
