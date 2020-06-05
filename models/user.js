@@ -16,7 +16,7 @@ const mongoose = require("mongoose"),
         type: String,
         required: true,
         lowercase: true,
-        unique: true
+        unique: true,
       },
       zipCode: {
         type: Number,

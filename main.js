@@ -2,9 +2,11 @@ const express = require("express"),
   app = express(),
   homeController = require("./controllers/homeController"),
   errorController = require("./controllers/errorController"),
-  mongoose = require("mongoose"),  
+  mongoose = require("mongoose"),
   likersController = require("./controllers/likersController"),
-  subscribersController = require("./controllers/subscribersController"), 
+  subscribersController = require("./controllers/subscribersController"),
+  usersController = require("./controllers/usersController"),
+  User = require("./models/user"),
   layouts = require("express-ejs-layouts");
 
 mongoose.connect(
@@ -41,12 +43,13 @@ Liker.deleteMany()
 });
 */
 
-
 app.get("/likes", likersController.getAllLikers);
 app.get("/shirts", homeController.getShirts);
 app.get("/contact", homeController.showSignUp);
-app.get("/subscribers", subscribersController.getAllSubscribers),
+app.get("/subscribers", subscribersController.getAllSubscribers);
 app.post("/contact", subscribersController.saveSubscriber);
+
+app.get("/users", usersController.index);
 
 app.use(errorController.respondInternalError);
 app.use(errorController.respondNoResourceFound);
