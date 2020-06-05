@@ -2,30 +2,25 @@
 
 today i like
 
-Ist ein Webanwendung, bei der Leute eintragen können was sie heute gut finden.
+Is a web application where people can enter what they like today.
 
-Grundidee:
+Basic idea:
 
-Die Startseite bietet ein einfaches Formular [today i like: …]
-Dazu ein Name, mehr nicht.
+The start page offers a simple form [today i like: ...] Plus a name, nothing more.
 
-Sitemap:
+sitemap:
 
-home, mit today i like form, werden in der mongo db gespeichert
-likes, hier werden die likes des tages random angezeigt.
-contact, hier gibt es ein contact formular
-shirts, hier wird es shirts mit den besten i like sprüchen geben, mit random design
+home, with today i like form, are stored in the mongo db likes, here the likes of the day are randomly displayed. contact, here is a contact formular shirts, here will be shirts with the best i like sayings, with random design
 
-Im weiteren verlauf der Entwicklung wird es die möglichkeit geben, sich einen Account zu machen und ein Profil zu haben, hier wird man seine bisherigen daily likes sehen.
+In the further course of development there will be the possibility to create an account and to have a profile, here you will see your daily likes.
 
-Es wird die Möglichkeit geben sich mit anderen Leuten zu verbinden, die in der gleichen Stadt sind und die gleichen daly likes haben.
+There will be the possibility to connect with other people who are in the same city and have the same daly likes.
 
-Eine Chat Funktion wird später im Verlauf der Entwicklung hinzugefügt.
+A chat function will be added later in the development.
 
-Das Design:
+The design:
 
-Grundlegend ist das Design in Schwarz und Weiß gehalten.
-Es soll minimalistisch und kontrastreich sein.
+The basic design is in black and white. It should be minimalistic and rich in contrast.
 
 
 ## How to Clone and Run the App Properly
