@@ -16,7 +16,7 @@
     <div class="w3-col m6">
       <form action="/contact" method="POST" target="_blank">
         <div class="w3-row-padding" style="margin: 0 -16px 8px -16px;">
-          <div class="w3-half">
+          <div class="w3-half" >
             <input
               class="w3-input w3-border"
               type="text"
@@ -34,14 +34,26 @@
               name="zipCode"
             />
           </div>
+          <div class="w3-half">
+            <input
+              class="w3-input w3-border"
+              type="text"
+              placeholder="Like"
+              required
+              name="like"
+            />
+          </div>
+          <div class="w3-half">
+            <input
+              class="w3-input w3-border"
+              type="text"
+              placeholder="Email"
+              required
+              name="email"
+            />
+          </div>
         </div>
-        <input
-          class="w3-input w3-border"
-          type="text"
-          placeholder="Email"
-          required
-          name="email"
-        />
+       
         <button class="w3-button w3-white w3-section w3-right" type="submit">
           SEND
         </button>

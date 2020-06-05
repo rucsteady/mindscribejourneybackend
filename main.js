@@ -2,10 +2,9 @@ const express = require("express"),
   app = express(),
   homeController = require("./controllers/homeController"),
   errorController = require("./controllers/errorController"),
-  mongoose = require("mongoose"),
+  mongoose = require("mongoose"),  
   likersController = require("./controllers/likersController"),
-  subscribersController = require("./controllers/subscribersController"),
-  Liker = require("./models/liker"),
+  subscribersController = require("./controllers/subscribersController"), 
   layouts = require("express-ejs-layouts");
 
 mongoose.connect(
@@ -41,6 +40,7 @@ Liker.deleteMany()
   console.log("Likers database is now empty");
 });
 */
+
 
 app.get("/likes", likersController.getAllLikers);
 app.get("/shirts", homeController.getShirts);
