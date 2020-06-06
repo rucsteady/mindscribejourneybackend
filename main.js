@@ -8,12 +8,12 @@ const express = require("express"),
   usersController = require("./controllers/usersController"),
   router = express.Router(),
   User = require("./models/user"),
+  methodOverride = require("method-override"),
   layouts = require("express-ejs-layouts");
 
 mongoose.connect(
   process.env.MONGODB_URI ||
-    "mongodb://nils12:nils12@ds157707.mlab.com:57707/heroku_1bw65rfv",
-  {
+  "mongodb://nils12:nils12@ds157707.mlab.com:57707/heroku_1bw65rfv", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }
@@ -26,11 +26,16 @@ db.once("open", () => {
 });
 
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(express.json());
 app.use(express.static("public"));
 app.use(layouts);
 router.use(layouts);
+router.use(methodOverride("_method", {
+  methods: ["POST", "GET"]
+}));
 
 app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
@@ -39,7 +44,7 @@ app.use("/", router);
 router.get("/users", usersController.index, usersController.indexView);
 router.get("/users/new", usersController.new);
 router.post("/users/create", usersController.create, usersController.redirectView);
-
+router.get("/users/:id", usersController.show, usersController.showView);
 
 app.get("/", homeController.getIndex);
 app.post("/", likersController.saveLiker);

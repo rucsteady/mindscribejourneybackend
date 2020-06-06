@@ -5,10 +5,7 @@
   <div class="w3-row w3-center" style="font-size: large;">
     <br /><br /><br />
     <h1>our users</h1>
-    <table
-      class="table"
-      style="border-top: 0.5px solid #fff; margin: auto; padding-top: 20px;"
-    >
+    <table class="table" style="border-top: 0.5px solid #fff; margin: auto; padding-top: 20px;">
       <thead>
         <tr>
           <th>Name</th>
@@ -19,9 +16,18 @@
       <tbody>
         <% users.forEach(user => { %>
         <tr>
-          <td><%= user.fullName %></td>
+          <td>
+            <a href="<%= `/users/${user._id}` %>">
+              <%= user.fullName %>
+            </a>
+          </td>
           <td><%= user.email %></td>
           <td><%= user.zipCode %></td>
+          <td>
+            <a href="<%=`/users/${user._id}/edit`%>">
+              Edit
+            </a>
+          </td>
         </tr>
         <% }); %>
       </tbody>
