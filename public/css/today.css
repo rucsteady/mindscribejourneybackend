@@ -7,3 +7,8 @@ body {
   width: 500px;
   float: left;
 }
+
+table {
+  text-align: left;
+  font-size: medium;
+}

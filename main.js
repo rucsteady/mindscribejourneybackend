@@ -49,7 +49,7 @@ app.get("/contact", homeController.showSignUp);
 app.get("/subscribers", subscribersController.getAllSubscribers);
 app.post("/contact", subscribersController.saveSubscriber);
 
-app.get("/users", usersController.index);
+app.get("/users", usersController.index, usersController.indexView);
 
 app.use(errorController.respondInternalError);
 app.use(errorController.respondNoResourceFound);
