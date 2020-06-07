@@ -22,7 +22,7 @@ mongoose.connect(
 );
 const db = mongoose.connection;
 mongoose.Promise = global.Promise;
-mongoose.set('useFindAndModify', false);
+mongoose.set("useFindAndModify", false);
 
 db.once("open", () => {
   console.log("Succesfully connected to MongoDB using Mongoose!");
@@ -56,9 +56,16 @@ router.post(
 );
 router.get("/users/:id", usersController.show, usersController.showView);
 router.get("/users/:id/edit", usersController.edit);
-router.put("/users/:id/update", usersController.update, usersController.redirectView);
-router.delete("/users/:id/delete", usersController.delete, usersController.redirectView);
-
+router.put(
+  "/users/:id/update",
+  usersController.update,
+  usersController.redirectView
+);
+router.delete(
+  "/users/:id/delete",
+  usersController.delete,
+  usersController.redirectView
+);
 
 app.get("/", homeController.getIndex);
 app.post("/", likersController.saveLiker);
