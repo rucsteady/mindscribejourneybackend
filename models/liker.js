@@ -1,10 +1,10 @@
 "use strict";
-
 const mongoose = require("mongoose"),
- likeSchema = mongoose.Schema({  
-  name: String,
-  message: String,
+  { Schema } = mongoose;
+
+var likerSchema = new Schema({
+  name: { type: String, required: true },
+  message: { type: String, required: true },
 });
 
-module.exports = mongoose.model("Liker", likeSchema);
-
+module.exports = mongoose.model("Liker", likerSchema);

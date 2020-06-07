@@ -3,14 +3,14 @@
   style="max-width: 800px;"
   id="contact"
 >
-  <h2 class="w3-wide w3-center">LIKES</h2>
-  <p class="w3-opacity w3-center"><i>We got some likes</i></p>
+  <h2 class="w3-wide w3-center">SUBSCRIBERS</h2>
+  <p class="w3-opacity w3-center"><i>We got some subs</i></p>
   <div class="w3-row w3-center" style="font-size: large;">
     <br /><br /><br />
-    <h1>fresh likes</h1>
-    <% likers.forEach(like => { %>
+    <h1>our subscribers</h1>
+    <% subscribers.forEach(subs => { %>
     <h5 style="border-top: 0.5px solid #fff; margin: 15px; padding-top: 20px;">
-      <%=like.name %> likes <%=like.message %>
+      <%=subs.name %> from <%=subs.zipCode %> email <%=subs.email %>
     </h5>
     <% }); %>
   </div>

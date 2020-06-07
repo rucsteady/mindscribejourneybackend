@@ -4,7 +4,11 @@ const express = require("express"),
   errorController = require("./controllers/errorController"),
   mongoose = require("mongoose"),
   likersController = require("./controllers/likersController"),
-  Liker = require("./models/liker"),
+  subscribersController = require("./controllers/subscribersController"),
+  usersController = require("./controllers/usersController"),
+  router = express.Router(),
+  User = require("./models/user"),
+  methodOverride = require("method-override"),
   layouts = require("express-ejs-layouts");
 
 mongoose.connect(
@@ -12,52 +16,57 @@ mongoose.connect(
     "mongodb://nils12:nils12@ds157707.mlab.com:57707/heroku_1bw65rfv",
   {
     useNewUrlParser: true,
+    useCreateIndex: true,
     useUnifiedTopology: true,
   }
 );
 const db = mongoose.connection;
+mongoose.Promise = global.Promise;
+mongoose.set('useFindAndModify', false);
 
 db.once("open", () => {
   console.log("Succesfully connected to MongoDB using Mongoose!");
 });
 
-app.use(express.urlencoded({ extended: false }));
+app.use(
+  express.urlencoded({
+    extended: false,
+  })
+);
 app.use(express.json());
-app.use(layouts);
 app.use(express.static("public"));
+app.use(layouts);
+router.use(layouts);
+router.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"],
+  })
+);
 
 app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 
-app.get("/", homeController.getIndex);
-
-/*
-Liker.create(
-  {
-    name: "Nele",
-    message: "Ella",
-  },
-
-  function (error, savedDocument) {
-    if (error) console.log(error);
-    console.log(savedDocument);
-  }
+app.use("/", router);
+router.get("/users", usersController.index, usersController.indexView);
+router.get("/users/new", usersController.new);
+router.post(
+  "/users/create",
+  usersController.create,
+  usersController.redirectView
 );
-*/
+router.get("/users/:id", usersController.show, usersController.showView);
+router.get("/users/:id/edit", usersController.edit);
+router.put("/users/:id/update", usersController.update, usersController.redirectView);
+router.delete("/users/:id/delete", usersController.delete, usersController.redirectView);
 
 
-app.get("/likes", likersController.getAllLikers, (req, res, next) => {
-  console.log(req.data);
-  res.render("likers", { likers: req.data });
-});
-
-// app.get("/likes", homeController.showLikes);
+app.get("/", homeController.getIndex);
+app.post("/", likersController.saveLiker);
+app.get("/likes", likersController.getAllLikers);
 app.get("/shirts", homeController.getShirts);
-
 app.get("/contact", homeController.showSignUp);
-app.post("/contact", homeController.postedSignUpForm);
-
-app.post("/", homeController.postedLikeUpForm);
+app.get("/subscribers", subscribersController.getAllSubscribers);
+app.post("/contact", subscribersController.saveSubscriber);
 
 app.use(errorController.respondInternalError);
 app.use(errorController.respondNoResourceFound);

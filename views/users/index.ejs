@@ -1,0 +1,46 @@
+<div class="w3-container w3-content w3-padding-64" style="max-width: 800px;">
+  <h2 class="w3-wide w3-center">USERS TABLE</h2>
+  <p class="w3-opacity w3-center"><i>all users on one site</i></p>
+
+  <div class="w3-row w3-center" style="font-size: large;">
+    <br /><br /><br />
+    <h1>our users</h1>
+    <table
+      class="table"
+      style="border-top: 0.5px solid #fff; margin: auto; padding-top: 20px;"
+    >
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Zip Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(user => { %>
+        <tr>
+          <td>
+            <a href="<%= `/users/${user._id}` %>">
+              <%= user.fullName %>
+            </a>
+          </td>
+          <td><%= user.email %></td>
+          <td><%= user.zipCode %></td>
+          <td>
+            <a href="<%=`/users/${user._id}/edit`%>">
+              Edit
+            </a>
+          </td>
+          <td>
+            <a
+              href="<%= `users/${user._id}/delete?_method=DELETE` %>"
+              onclick="return confirm('Are you sure you want to delete this record?')"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>
