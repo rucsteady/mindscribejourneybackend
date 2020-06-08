@@ -1,0 +1,43 @@
+<div
+  class="w3-container w3-content w3-padding-64"
+  style="max-width: 800px;"
+  id="newSubscriber"
+>
+  <h2 class="w3-wide w3-center">SUBSCRIBER CREATE</h2>
+  <p class="w3-opacity w3-center"><i>Create a new subscriber:</i></p>
+  <div class="w3-row w3-padding-32">
+    <div class="w3-col m6" style="width: 100%;">
+      <form action="/subscribers/create" method="POST">
+        <h2>Create a new subscriber:</h2>
+        <label for="inputName">Name</label>
+        <input
+          type="text"
+          name="name"
+          id="inputName"
+          placeholder="Name"
+          autofocus
+        />
+        <label for="inputEmail">Email address</label>
+        <input
+          type="email"
+          name="email"
+          id="inputEmail"
+          placeholder="Email address"
+          required
+        />
+        <label for="inputZipCode">Zip Code</label>
+        <input
+          type="text"
+          name="zipCode"
+          id="inputZipCode"
+          pattern="[0-9]{5}"
+          placeholder="Zip Code"
+          required
+        />
+        <button class="w3-button w3-white w3-section w3-right" type="submit">
+          SAVE
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

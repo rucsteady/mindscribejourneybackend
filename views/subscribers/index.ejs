@@ -8,10 +8,39 @@
   <div class="w3-row w3-center" style="font-size: large;">
     <br /><br /><br />
     <h1>our subscribers</h1>
-    <% subscribers.forEach(subs => { %>
-    <h5 style="border-top: 0.5px solid #fff; margin: 15px; padding-top: 20px;">
-      <%=subs.name %> from <%=subs.zipCode %> email <%=subs.email %>
-    </h5>
-    <% }); %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% subscribers.forEach(subscriber => { %>
+        <tr>
+          <td>
+            <a href="<%= `/subscribers/${subscriber._id}` %>">
+              <%= subscriber.name %>
+            </a>
+          </td>
+          <td><%= subscriber.email %></td>
+          <td>
+            <a href="<%=`subscribers/${subscriber._id}/edit` %>">
+              Edit
+            </a>
+          </td>
+          <td>
+            <a
+              href="<%=`subscribers/${subscriber._id}/delete?_method=DELETE` %>"
+              onclick="return confirm('Are you sure you want to delete this record?')"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
   </div>
 </div>

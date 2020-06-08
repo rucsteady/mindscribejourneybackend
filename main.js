@@ -67,13 +67,26 @@ router.delete(
   usersController.redirectView
 );
 
+router.get("/subscribers", subscribersController.index,subscribersController.indexView);
+router.get("/subscribers/new", subscribersController.new);
+router.post("/subscribers/create", subscribersController.create,subscribersController.redirectView);
+router.get("/subscribers/:id", subscribersController.show, subscribersController.showView);
+router.get("/subscribers/:id/edit", subscribersController.edit);
+router.put("/subscribers/:id/update", subscribersController.update, subscribersController.redirectView);
+router.delete("/subscribers/:id/delete", subscribersController.delete, subscribersController.redirectView);
+
+
+
 app.get("/", homeController.getIndex);
 app.post("/", likersController.saveLiker);
 app.get("/likes", likersController.getAllLikers);
+
+
+//app.get("/contact", homeController.showSignUp);
+//app.get("/subscribers", subscribersController.getAllSubscribers);
+//app.post("/contact", subscribersController.saveSubscriber);
+
 app.get("/shirts", homeController.getShirts);
-app.get("/contact", homeController.showSignUp);
-app.get("/subscribers", subscribersController.getAllSubscribers);
-app.post("/contact", subscribersController.saveSubscriber);
 
 app.use(errorController.respondInternalError);
 app.use(errorController.respondNoResourceFound);

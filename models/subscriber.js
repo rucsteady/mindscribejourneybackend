@@ -9,6 +9,12 @@ var subscriberSchema = new Schema({
     required: true,
     trim: true,
   },
+  email: {
+    type: String,
+    trim: true,
+    required: "Email is required",
+    lowercase: true,
+  },
   zipCode: {
     type: Number,
     min: [10000, "Zip code too short"],
@@ -21,12 +27,7 @@ var subscriberSchema = new Schema({
       ref: "Like",
     },
   ],
-  email: {
-    type: String,
-    trim: true,
-    required: "Email is required",
-    lowercase: true,
-  },
+  
 });
 
 subscriberSchema.methods.getInfo = function () {

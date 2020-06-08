@@ -59,7 +59,8 @@ userSchema.pre("save", function (next) {
         next();
       })
       .catch((error) => {
-        console.log(`Error in connecting subscriber:${error.message}`);
+        console.log(`Error in connecting subscriber:
+   ${error.message}`);
         next(error);
       });
   } else {
