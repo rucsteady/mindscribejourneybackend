@@ -10,18 +10,15 @@
       <form method="POST" action="<%=`/likes/${like._id}/update?_method=PUT`%>">
         <br />
         <div class="w3-center">
-          <label for="inputFirstName">First Name</label>
+          <label for="inputFirstName">Name</label>
           <input
             class="w3-input w3-border"
             type="text"
-            name="first"
-            id="inputName"
+            name="name"
             value="<%= like.name %>"
             placeholder="Name"
             autofocus
           />
-                                   
-         
         </div>
         <button class="w3-button w3-white w3-section w3-right" type="submit">
           Update
