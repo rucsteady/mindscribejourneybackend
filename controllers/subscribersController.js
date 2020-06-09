@@ -70,8 +70,7 @@ module.exports = {
                 });
             })
             .catch(error => {
-                console.log(`Error fetching subscriber by ID:
-                ➥ ${error.message}`);
+                console.log(`Error fetching subscriber by ID: ${error.message}`);
                 next(error);
             });
     },

@@ -1,39 +1,38 @@
 <div class="w3-container w3-content w3-padding-64" style="max-width: 800px;">
-  <h2 class="w3-wide w3-center">SUBSCRIBERS TABLE</h2>
-  <p class="w3-opacity w3-center"><i>all subscribers on one site</i></p>
+  <h2 class="w3-wide w3-center">LIKES TABLE</h2>
+  <p class="w3-opacity w3-center"><i>all likes on one site</i></p>
 
   <div class="w3-row w3-center" style="font-size: large;">
     <br /><br /><br />
-    <h1>our subscribers</h1>
+
+    <h1>our likes</h1>
+
     <table
       class="table"
       style="border-top: 0.5px solid #fff; margin: auto; padding-top: 20px;"
     >
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Zip Code</th>
+          <th>Name</th>          
         </tr>
       </thead>
       <tbody>
-        <% subscribers.forEach(subscriber => { %>
+        <% likes.forEach(like => { %>
         <tr>
           <td>
-            <a href="<%= `/subscribers/${subscriber._id}` %>">
-              <%= subscriber.name %>
+            <a href="<%= `/likes/${like._id}` %>">
+              <%= like.name %>
             </a>
           </td>
-          <td><%= subscriber.email %></td>
-          <td><%= subscriber.zipCode %></td>
+          </td>
           <td>
-            <a href="<%=`/subscribers/${subscriber._id}/edit`%>">
+            <a href="<%=`/likes/${like._id}/edit`%>">
               Edit
             </a>
           </td>
           <td>
             <a
-              href="<%= `subscribers/${subscriber._id}/delete?_method=DELETE` %>"
+              href="<%= `likes/${like._id}/delete?_method=DELETE` %>"
               onclick="return confirm('Are you sure you want to delete this record?')"
               >Delete</a
             >
@@ -43,10 +42,9 @@
       </tbody>
     </table>
     <a
-      href="<%= `subscribers/new/` %>"
+      href="<%= `likes/new/` %>"
       class="w3-button w3-white w3-section w3-center"
-      >New Subscriber</a
+      >New Like</a
     >
   </div>
 </div>
-
