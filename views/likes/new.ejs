@@ -1,0 +1,27 @@
+<div
+  class="w3-container w3-content w3-padding-64"
+  style="max-width: 800px;"
+  id="newLike"
+>
+  <h2 class="w3-wide w3-center">LIKE CREATE</h2>
+  <p class="w3-opacity w3-center"><i>Create a new like</i></p>
+  <div class="w3-row w3-padding-32">
+    <div class="w3-col m6" style="width: 100%;">
+      <form action="/likes/create" method="POST">
+        <h2>Create a new like:</h2>
+        <label for="inputName">Like</label>
+        <input
+          type="text"
+          name="name"
+          id="inputName"
+          placeholder="Like"
+          autofocus
+        />
+
+        <button class="w3-button w3-white w3-section w3-right" type="submit">
+          SAVE
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="w3-container w3-content w3-padding-64" style="max-width: 800px;">
+  <h2 class="w3-wide w3-center">LIKE EDIT</h2>
+  <p class="w3-opacity w3-center"><i>edit like</i></p>
+
+  <div class="w3-row w3-center" style="font-size: large;">
+    <br />
+    <h1>Like Data for <%= like.name %></h1>
+
+    <div class="data-form w3-row-padding">
+      <form method="POST" action="<%=`/likes/${like._id}/update?_method=PUT`%>">
+        <br />
+        <div class="w3-center">
+          <label for="inputFirstName">Name</label>
+          <input
+            class="w3-input w3-border"
+            type="text"
+            name="name"
+            value="<%= like.name %>"
+            placeholder="Name"
+            autofocus
+          />
+        </div>
+        <button class="w3-button w3-white w3-section w3-right" type="submit">
+          Update
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

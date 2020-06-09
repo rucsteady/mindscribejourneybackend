@@ -1,14 +1,14 @@
 <div class="w3-container w3-content w3-padding-64" style="max-width: 800px;">
   <h2 class="w3-wide w3-center">USER EDIT</h2>
-  <p class="w3-opacity w3-center"><i>all users on one site</i></p>
+  <p class="w3-opacity w3-center"><i>edit user profile</i></p>
 
   <div class="w3-row w3-center" style="font-size: large;">
-    <br /><br /><br />
+    <br />
     <h1>User Data for <%= user.fullName %></h1>
 
     <div class="data-form w3-row-padding">
       <form method="POST" action="<%=`/users/${user._id}/update?_method=PUT`%>">
-        <h2>Edit user:</h2>
+        <br />
         <div class="w3-center">
           <label for="inputFirstName">First Name</label>
           <input

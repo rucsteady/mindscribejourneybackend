@@ -1,6 +1,14 @@
 "use strict";
 
 module.exports = {
+  getIndex: (req, res) => {
+    res.render("index");
+  },
+  getShirts: (req, res) => {
+    res.render("shirts");
+  },
+
+  /*
   showSignUp: (req, res) => {
     res.render("contact");
   },
@@ -13,11 +21,6 @@ module.exports = {
     res.render("liked_thanks");
   },
 
-  getIndex: (req, res) => {
-    res.render("index");
-  },
-
-  getShirts: (req, res) => {
-    res.render("shirts");
-  },
+  
+  */
 };

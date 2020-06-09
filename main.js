@@ -4,10 +4,12 @@ const express = require("express"),
   errorController = require("./controllers/errorController"),
   mongoose = require("mongoose"),
   likersController = require("./controllers/likersController"),
+  likesController = require("./controllers/likesController"),
   subscribersController = require("./controllers/subscribersController"),
   usersController = require("./controllers/usersController"),
   router = express.Router(),
   User = require("./models/user"),
+  Like = require("./models/like"),
   methodOverride = require("method-override"),
   layouts = require("express-ejs-layouts");
 
@@ -22,7 +24,7 @@ mongoose.connect(
 );
 const db = mongoose.connection;
 mongoose.Promise = global.Promise;
-mongoose.set('useFindAndModify', false);
+mongoose.set("useFindAndModify", false);
 
 db.once("open", () => {
   console.log("Succesfully connected to MongoDB using Mongoose!");
@@ -56,17 +58,84 @@ router.post(
 );
 router.get("/users/:id", usersController.show, usersController.showView);
 router.get("/users/:id/edit", usersController.edit);
-router.put("/users/:id/update", usersController.update, usersController.redirectView);
-router.delete("/users/:id/delete", usersController.delete, usersController.redirectView);
+router.put(
+  "/users/:id/update",
+  usersController.update,
+  usersController.redirectView
+);
+router.delete(
+  "/users/:id/delete",
+  usersController.delete,
+  usersController.redirectView
+);
 
+router.get(
+  "/subscribers",
+  subscribersController.index,
+  subscribersController.indexView
+);
+router.get("/subscribers/new", subscribersController.new);
+router.post(
+  "/subscribers/create",
+  subscribersController.create,
+  subscribersController.redirectView
+);
+router.get(
+  "/subscribers/:id",
+  subscribersController.show,
+  subscribersController.showView
+);
+router.get("/subscribers/:id/edit", subscribersController.edit);
+router.put(
+  "/subscribers/:id/update",
+  subscribersController.update,
+  subscribersController.redirectView
+);
+router.delete(
+  "/subscribers/:id/delete",
+  subscribersController.delete,
+  subscribersController.redirectView
+);
+
+router.get("/likes", likesController.index, likesController.indexView);
+router.get("/likes/new", likesController.new);
+router.post(
+  "/likes/create",
+  likesController.create,
+  likesController.redirectView
+);
+router.get("/likes/:id", likesController.show, likesController.showView);
+router.get("/likes/:id/edit", likesController.edit);
+router.put(
+  "/likes/:id/update",
+  likesController.update,
+  likesController.redirectView
+);
+router.delete(
+  "/likes/:id/delete",
+  likesController.delete,
+  likesController.redirectView
+);
+
+Like.create(
+  {
+    name: "pizza",
+  },
+  function (error, savedDocument) {
+    if (error) console.log(error);
+    console.log(savedDocument);
+  }
+);
 
 app.get("/", homeController.getIndex);
 app.post("/", likersController.saveLiker);
 app.get("/likes", likersController.getAllLikers);
+
+//app.get("/contact", homeController.showSignUp);
+//app.get("/subscribers", subscribersController.getAllSubscribers);
+//app.post("/contact", subscribersController.saveSubscriber);
+
 app.get("/shirts", homeController.getShirts);
-app.get("/contact", homeController.showSignUp);
-app.get("/subscribers", subscribersController.getAllSubscribers);
-app.post("/contact", subscribersController.saveSubscriber);
 
 app.use(errorController.respondInternalError);
 app.use(errorController.respondNoResourceFound);
