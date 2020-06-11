@@ -66,7 +66,6 @@ router.use((req, res, next) => {
   next();
 });
 
-
 app.use("/", router);
 router.get("/users", usersController.index, usersController.indexView);
 router.get("/users/new", usersController.new);
@@ -75,6 +74,14 @@ router.post(
   usersController.create,
   usersController.redirectView
 );
+
+router.get("/users/login", usersController.login);
+router.post(
+  "/users/login",
+  usersController.authenticate,
+  usersController.redirectView
+);
+
 router.get("/users/:id", usersController.show, usersController.showView);
 router.get("/users/:id/edit", usersController.edit);
 router.put(
