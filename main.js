@@ -8,6 +8,9 @@ const express = require("express"),
   subscribersController = require("./controllers/subscribersController"),
   usersController = require("./controllers/usersController"),
   router = express.Router(),
+  expressSession = require("express-session"),
+  cookieParser = require("cookie-parser"),
+  connectFlash = require("connect-flash"),
   User = require("./models/user"),
   Like = require("./models/like"),
   methodOverride = require("method-override"),
@@ -44,9 +47,25 @@ router.use(
     methods: ["POST", "GET"],
   })
 );
-
 app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
+
+router.use(cookieParser("secret_passcode"));
+router.use(
+  expressSession({
+    secret: "secret_passcode",
+    cookie: { maxAge: 4000000 },
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+router.use(connectFlash());
+router.use((req, res, next) => {
+  res.locals.flashMessages = req.flash();
+  next();
+});
+
 
 app.use("/", router);
 router.get("/users", usersController.index, usersController.indexView);
@@ -119,7 +138,7 @@ router.delete(
 
 Like.create(
   {
-    name: "pizza",
+    name: "Burger",
   },
   function (error, savedDocument) {
     if (error) console.log(error);

@@ -25,7 +25,16 @@
       <div class="w3-display-topleft w3-padding-large w3-xlarge w3-hide-small">
         today i like
       </div>
+
+      
       <%- body %>
+      <div class="flashes">
+        <% if (flashMessages) { %> <% if (flashMessages.success) { %>
+        <div class="flashSuccess"><%= flashMessages.success %></div>
+        <% } else if (flashMessages.error) { %>
+        <div class="flashError"><%= flashMessages.error %></div>
+        <% } %> <% } %>
+      </div>
     </div>
     <%- include('partials/footer') %>
   </body>

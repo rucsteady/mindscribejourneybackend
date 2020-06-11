@@ -15,7 +15,11 @@ module.exports = {
       });
   },
   indexView: (req, res) => {
-    res.render("users");
+    res.render("users", {
+      flashMessages: {
+        success: "Loaded all users!",
+      },
+    });
   },
   new: (req, res) => {
     res.render("users/new");
@@ -32,13 +36,23 @@ module.exports = {
     };
     User.create(userParams)
       .then((user) => {
+        req.flash(
+          "success",
+          `${user.fullName}'s account created successfully!`
+        );
+        res.locals.redirect;
         res.locals.redirect = "/users";
         res.locals.user = user;
         next();
       })
       .catch((error) => {
         console.log(`Error saving user: ${error.message}`);
-        next(error);
+        res.locals.redirect = "/users/new";
+        req.flash(
+          "error",
+          `Failed to create user account because: ${error.message}`
+        );
+        next();
       });
   },
   redirectView: (req, res, next) => {
@@ -50,6 +64,7 @@ module.exports = {
     let userId = req.params.id;
     User.findById(userId)
       .then((user) => {
+        
         res.locals.user = user;
         next();
       })
