@@ -9,6 +9,7 @@ const express = require("express"),
   usersController = require("./controllers/usersController"),
   router = express.Router(),
   expressSession = require("express-session"),
+  expressValidator = require("express-validator"),
   cookieParser = require("cookie-parser"),
   connectFlash = require("connect-flash"),
   User = require("./models/user"),
@@ -40,6 +41,8 @@ app.use(
 );
 app.use(express.json());
 app.use(express.static("public"));
+router.use(expressValidator());
+
 app.use(layouts);
 router.use(layouts);
 router.use(
@@ -60,8 +63,6 @@ router.use(
   })
 );
 
-
-
 router.use(connectFlash());
 router.use((req, res, next) => {
   res.locals.flashMessages = req.flash();
@@ -72,7 +73,7 @@ app.use("/", router);
 router.get("/users", usersController.index, usersController.indexView);
 router.get("/users/new", usersController.new);
 router.post(
-  "/users/create",
+  "/users/create",usersController.validate,
   usersController.create,
   usersController.redirectView
 );
@@ -97,7 +98,11 @@ router.delete(
   usersController.redirectView
 );
 
-router.post("/delete/Likes", likesController.deleteLikes, likesController.redirectView);
+router.post(
+  "/delete/Likes",
+  likesController.deleteLikes,
+  likesController.redirectView
+);
 
 router.get(
   "/subscribers",
