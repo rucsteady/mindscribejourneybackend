@@ -6,6 +6,7 @@
     <br /><br /><br />
 
     <h1>our likes</h1>
+    <form action="/delete/Likes" method="post" onclick="return confirm('Are you sure you want to delete all likes?')" style="display:inline"><input class="button w3-button w3-black " style="font-size:15px;" type="submit" name="type" value="Delete All Likes"></form>
 
     <table
       class="table"
@@ -19,7 +20,7 @@
       <tbody>
         <% likes.forEach(like => { %>
         <tr>
-          <td>
+          <td>            
             <a href="<%= `/likes/${like._id}` %>">
               <%= like.name %>
             </a>

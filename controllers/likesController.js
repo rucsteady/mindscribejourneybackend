@@ -101,4 +101,16 @@ module.exports = {
         next();
       });
   },
+  deleteLikes: (req, res, next) => {
+    Like.deleteMany({})
+      .then(() => {        
+        res.locals.redirect = "/likes";
+        next();
+      })
+      .catch((error) => {
+        console.log(`Error deleting like by ID:
+                     ${error.message}`);
+        next();
+      });
+  },
 };
