@@ -10,6 +10,7 @@ const express = require("express"),
   router = express.Router(),
   expressSession = require("express-session"),
   expressValidator = require("express-validator"),
+  passport = require("passport"),
   cookieParser = require("cookie-parser"),
   connectFlash = require("connect-flash"),
   User = require("./models/user"),
@@ -34,6 +35,10 @@ db.once("open", () => {
   console.log("Succesfully connected to MongoDB using Mongoose!");
 });
 
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use(
   express.urlencoded({
     extended: false,
@@ -42,6 +47,8 @@ app.use(
 app.use(express.json());
 app.use(express.static("public"));
 router.use(expressValidator());
+router.use(passport.initialize());
+router.use(passport.session());
 
 app.use(layouts);
 router.use(layouts);
@@ -50,6 +57,7 @@ router.use(
     methods: ["POST", "GET"],
   })
 );
+
 app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 
@@ -73,7 +81,8 @@ app.use("/", router);
 router.get("/users", usersController.index, usersController.indexView);
 router.get("/users/new", usersController.new);
 router.post(
-  "/users/create",usersController.validate,
+  "/users/create",
+  usersController.validate,
   usersController.create,
   usersController.redirectView
 );
