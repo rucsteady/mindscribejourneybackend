@@ -1,6 +1,19 @@
 "use strict";
 
-const User = require("../models/user");
+const User = require("../models/user"),
+  passport = require("passport"),
+  getUserParams = body => {
+    return {
+      name: {
+        first: body.first,
+        last: body.last
+      },
+      email: body.email,
+      password: body.password,
+      zipCode: body.zipCode
+    };
+  };
+
 
 module.exports = {
   index: (req, res, next) => {
@@ -19,6 +32,30 @@ module.exports = {
       flashMessages: {
         success: "Loaded all users!",
       },
+    });
+  },
+  new: (req, res) => {
+    res.render("users/new");
+  },
+  create: (req, res, next) => {
+    if (req.skip) next();
+    let newUser = new User(getUserParams(req.body));
+    User.register(newUser, req.body.password, (error, user) => {
+      if (user) {
+        req.flash(
+          "success",
+          `${user.fullName}'s account created successfully!`
+        );
+        res.locals.redirect = "/users";
+        next();
+      } else {
+        req.flash(
+          "error",
+          `Failed to create user account because: ${error.message}.`
+        );
+        res.locals.redirect = "/users/new";
+        next();
+      }
     });
   },
   validate: (req, res, next) => {
@@ -50,32 +87,7 @@ module.exports = {
         next();
       }
     });
-  },
-
-  new: (req, res) => {
-    res.render("users/new");
-  },
-  create: (req, res, next) => {
-    if (req.skip) next();
-    let newUser = new User(getUserParams(req.body));
-    User.register(newUser, req.body.password, (error, user) => {
-      if (user) {
-        req.flash(
-          "success",
-          `${user.fullName}'s account created successfully!`
-        );
-        res.locals.redirect = "/users";
-        next();
-      } else {
-        req.flash(
-          "error",
-          `Failed to create user account because: ${error.message}.`
-        );
-        res.locals.redirect = "/users/new";
-        next();
-      }
-    });
-  },
+  },  
   redirectView: (req, res, next) => {
     let redirectPath = res.locals.redirect;
     if (redirectPath) res.redirect(redirectPath);
