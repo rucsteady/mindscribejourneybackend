@@ -18,6 +18,7 @@ const express = require("express"),
   methodOverride = require("method-override"),
   layouts = require("express-ejs-layouts");
 
+  // starting with sprint 5 api
 mongoose.connect(
   process.env.MONGODB_URI ||
     "mongodb://nils12:nils12@ds157707.mlab.com:57707/heroku_1bw65rfv",
