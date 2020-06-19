@@ -32,3 +32,34 @@ table {
   position: absolute;
   top: 180px;
 }
+
+
+.login-status {
+  z-index: 999;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+
+.log-out {
+  z-index: 998;
+  position: absolute;
+  right: 10px;
+}
+
+.login-status .bubble {
+  z-index: 997;
+  padding: 10px;
+  color: black;
+  background: white;
+  border-radius: 20px;
+}
+
+@media (max-width: 760px) {
+  .login-status .bubble {
+    top: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 2vw;
+  }
+}

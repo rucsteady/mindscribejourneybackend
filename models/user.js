@@ -2,7 +2,6 @@
 
 const Subscriber = require("./subscriber");
 const passportLocalMongoose = require("passport-local-mongoose");
-const bcrypt = require("bcrypt");
 const mongoose = require("mongoose"),
   { Schema } = mongoose,
   userSchema = new Schema(
@@ -71,6 +70,5 @@ userSchema.pre("save", function (next) {
 userSchema.plugin(passportLocalMongoose, {
   usernameField: "email",
 });
-
 
 module.exports = mongoose.model("User", userSchema);
