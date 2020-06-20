@@ -10,14 +10,20 @@
     <div class="w3-col" style="margin: auto;">
       <form action="/" method="POST" target="_blank">
         <div class="w3-row-padding" style="margin: 0 0 0 -10px;">
-          <h1>my name is</h1>
-          <input
-            class="w3-input w3-border"
-            type="text"
-            placeholder="Name"
-            required
-            name="name"
-          />
+          <h1>my name is        
+            
+              <% if (loggedIn) { %>              
+                <a href="<%=`/users/${currentUser._id}`%>">
+                  <%= currentUser.fullName %></a>              
+               
+              
+              <%} else {%>
+             
+                <a href="/users/login">Log In</a>
+              
+              <% } %>
+            </h1>  
+            </div>
           <h1>today i like</h1>
           <input
             class="w3-input w3-border"

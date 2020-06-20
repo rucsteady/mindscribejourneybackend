@@ -20,7 +20,7 @@ table {
   text-align: center;
   padding: 10px 30px;
   position: absolute;
-  top: 220px;
+  bottom: 0px;
 }
 
 .flashError {
@@ -30,7 +30,7 @@ table {
   text-align: center;
   padding: 10px 30px;
   position: absolute;
-  top: 180px;
+  bottom: 0px;
 }
 
 
@@ -38,12 +38,13 @@ table {
   z-index: 999;
   position: absolute;
   right: 10px;
-  top: 5px;
+  bottom: 20px;
 }
 
 .log-out {
   z-index: 998;
   position: absolute;
+  bottom: 50px;
   right: 10px;
 }
 
