@@ -19,11 +19,7 @@ module.exports = {
       });
   },
   indexView: (req, res) => {
-    if (req.query.format === "json") {
-      res.json(res.locals.likes);
-    } else {
-      res.render("likes/index");
-    }
+    res.render("likes/index");
   },
   new: (req, res) => {
     res.render("likes/new");
@@ -120,24 +116,23 @@ module.exports = {
   respondJSON: (req, res) => {
     res.json({
       status: httpStatus.OK,
-      data: res.locals
+      data: res.locals,
     });
   },
   errorJSON: (error, req, res, next) => {
     let errorObject;
 
-    if(error) {
+    if (error) {
       errorObject = {
         status: httpStatus.INTERNAL_SERVER_ERROR,
-        message: error.message
-        
+        message: error.message,
       };
     } else {
       errorObject = {
         status: httpStatus.INTERNAL_SERVER_ERROR,
-        message: "Unknown Error."
+        message: "Unknown Error.",
       };
     }
     res.json(errorObject);
-  }
+  },
 };
