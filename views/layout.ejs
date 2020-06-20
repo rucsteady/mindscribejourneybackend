@@ -5,8 +5,15 @@
     <meta charset="UTF-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/today.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/css/w3.css" />
     <link rel="stylesheet" type="text/css" href="/css/today.css" />
+    
     <link
       rel="stylesheet"
       type="text/css"
@@ -17,10 +24,12 @@
       type="text/css"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    
+    
   </head>
 
-  <body>
-    <%- include('partials/navigation') %>
+  <body>       
+    <%- include('partials/navigation') %> 
 
     <div class="login-status">
 			<% if (loggedIn) { %>
@@ -42,7 +51,7 @@
       <div class="w3-display-topleft w3-padding-large w3-xlarge w3-hide-small">
         today i like
       </div>
-      <%- body %>
+      <%- body %>     
 
       <div class="flashes">
         <% if (flashMessages) { %> <% if (flashMessages.success) { %>

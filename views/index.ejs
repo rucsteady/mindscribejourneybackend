@@ -8,8 +8,8 @@
 
   <div class="w3-row w3-padding-32">
     <div class="w3-col" style="margin: auto;">
-      <form action="/" method="POST" target="_blank">
-        <div class="w3-row-padding" style="margin: 0 0 0 -10px;">
+      <form action="/likes/create" method="POST">
+        <div class="w3-row-padding" style="margin: 0 0 0 -2px;">
           <h1>my name is        
             
               <% if (loggedIn) { %>              
@@ -28,9 +28,9 @@
           <input
             class="w3-input w3-border"
             type="text"
-            placeholder="Message"
+            placeholder="like..."
             required
-            name="message"
+            name="name"
           />
           <button
             class="w3-button w3-white w3-section"

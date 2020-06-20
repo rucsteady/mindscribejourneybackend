@@ -19,7 +19,11 @@ module.exports = {
       });
   },
   indexView: (req, res) => {
-    res.render("likes/index");
+    if (req.query.format === "json") {
+      res.json(res.locals.likes);
+    } else {
+      res.render("likes/index");
+    }
   },
   new: (req, res) => {
     res.render("likes/new");
@@ -103,12 +107,12 @@ module.exports = {
   },
   deleteLikes: (req, res, next) => {
     Like.deleteMany({})
-      .then(() => {        
+      .then(() => {
         res.locals.redirect = "/likes";
         next();
       })
       .catch((error) => {
-        console.log(`Error deleting like by ID:
+        console.log(`Error deleting likes:
                      ${error.message}`);
         next();
       });
