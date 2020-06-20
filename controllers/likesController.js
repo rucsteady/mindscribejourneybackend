@@ -1,5 +1,5 @@
 "use strict";
-
+const httpStatus = require("http-status-codes");
 const Like = require("../models/like"),
   getLikeParams = (body) => {
     return {
@@ -117,4 +117,27 @@ module.exports = {
         next();
       });
   },
+  respondJSON: (req, res) => {
+    res.json({
+      status: httpStatus.OK,
+      data: res.locals
+    });
+  },
+  errorJSON: (error, req, res, next) => {
+    let errorObject;
+
+    if(error) {
+      errorObject = {
+        status: httpStatus.INTERNAL_SERVER_ERROR,
+        message: error.message
+        
+      };
+    } else {
+      errorObject = {
+        status: httpStatus.INTERNAL_SERVER_ERROR,
+        message: "Unknown Error."
+      };
+    }
+    res.json(errorObject);
+  }
 };

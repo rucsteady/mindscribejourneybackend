@@ -4,7 +4,7 @@ $(document).ready(() => {
       data.forEach((like) => {
         $(".modal-body").append(
           `<div>
-            <span class="course-title">
+            <span class="like-title">
             ${like.name}
             </span>
             </div>`
