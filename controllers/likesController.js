@@ -1,5 +1,7 @@
 "use strict";
-const httpStatus = require("http-status-codes");
+const httpStatus = require("http-status-codes"),
+  User = require("../models/user");
+
 const Like = require("../models/like"),
   getLikeParams = (body) => {
     return {
@@ -134,5 +136,41 @@ module.exports = {
       };
     }
     res.json(errorObject);
+  },
+  filterUserLikes: (req, res, next) => {
+    let currentUser = res.locals.currentUser;
+    if (currentUser) {
+      let mappedLikes = res.locals.likes.map((like) => {
+        let userJoined = currentUser.likes.some((userLike) => {
+          return userLike.equals(like._id);
+        });
+        return Object.assign(like.toObject(), { joined: userJoined });
+      });
+      res.locals.likes = mappedLikes;
+      next();
+    } else {
+      next();
+    }
+  },
+  join: (req, res, next) => {
+    let likeId = req.params.id,
+      currentUser = req.user;
+
+    if (currentUser) {
+      User.findByIdAndUpdate(currentUser, {
+        $addToSet: {
+          likes: likeId,
+        },
+      })
+        .then(() => {
+          res.locals.success = true;
+          next();
+        })
+        .catch((error) => {
+          next(error);
+        });
+    } else {
+      next(new Error("User must log in."));
+    }
   },
 };
