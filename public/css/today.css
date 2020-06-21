@@ -20,7 +20,7 @@ table {
   text-align: center;
   padding: 10px 30px;
   position: absolute;
-  top: 220px;
+  bottom: 0px;
 }
 
 .flashError {
@@ -30,7 +30,7 @@ table {
   text-align: center;
   padding: 10px 30px;
   position: absolute;
-  top: 180px;
+  bottom: 0px;
 }
 
 
@@ -38,12 +38,13 @@ table {
   z-index: 999;
   position: absolute;
   right: 10px;
-  top: 5px;
+  bottom: 20px;
 }
 
 .log-out {
   z-index: 998;
   position: absolute;
+  bottom: 50px;
   right: 10px;
 }
 
@@ -63,3 +64,72 @@ table {
     font-size: 2vw;
   }
 }
+
+
+.modal-dialog {
+  background: white;
+  border-radius: 15px;
+  color: black;
+}
+
+.modal-title {
+  padding-top: 30px;
+  padding-top: 30px;
+  font-size: 30px;
+  color: #625956;
+  font-weight: 100;
+  color: black;
+}
+
+.like-title {
+  padding: 0 5px;
+  font-size: 20px;
+  border-radius: 10px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.like-description {
+  padding: 10px 10px 20px 10px;
+  text-align: left;
+  margin: 0 10px;
+  clear: left;
+}
+
+.like-title::before {
+  background-size: 20px 40px;
+  display: inline-block;
+  width: 20px;
+  height: 40px;
+  content: "";
+}
+
+.like-cost {
+  display: inline-block;
+  position: absolute;
+  right: 35px;
+  margin-top: 60px;
+  font-family: "Baloo Bhaina";
+  font-size: 18px;
+}
+
+.modal-body {
+  padding: 15px 30px;
+}
+
+.join-button {
+  position: absolute;
+  right: 35px;
+  margin-top: 30px;
+  border: 1px solid;
+}
+
+.joined-button {
+  position: absolute;
+  right: 35px;
+  margin-top: 30px;
+  background-color: #c1ffc1;
+  color: #625956;
+  border: 1px solid;
+}
+
