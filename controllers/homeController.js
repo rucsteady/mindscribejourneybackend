@@ -25,4 +25,7 @@ module.exports = {
     if (redirectPath) res.redirect(redirectPath);
     else next();
   },
+  chat: (req, res) => {
+    res.render("chat");
+  },
 };
