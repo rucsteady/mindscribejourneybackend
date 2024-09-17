@@ -1,23 +1,18 @@
-const express = require("express"),
-  layouts = require("express-ejs-layouts"),
-  app = express(),
-  router = require("./routes/index"),
-  homeController = require("./controllers/homeController"),
-  errorController = require("./controllers/errorController"),
-  subscribersController = require("./controllers/subscribersController.js"),
-  usersController = require("./controllers/usersController.js"),
-  likesController = require("./controllers/likesController.js"),
-  mongoose = require("mongoose"),
-  methodOverride = require("method-override"),
-  passport = require("passport"),
-  cookieParser = require("cookie-parser"),
-  expressSession = require("express-session"),
-  expressValidator = require("express-validator"),
-  connectFlash = require("connect-flash"),
-  User = require("./models/user");
+import connectFlash from "connect-flash";
+import cookieParser from "cookie-parser";
+import express, { json, static, urlencoded } from "express";
+import layouts from "express-ejs-layouts";
+import expressSession from "express-session";
+import expressValidator from "express-validator";
+import methodOverride from "method-override";
+import { Promise, connect, set } from "mongoose";
+import { deserializeUser, initialize, serializeUser, session, use } from "passport";
+import { deserializeUser as _deserializeUser, serializeUser as _serializeUser, createStrategy } from "./models/user";
+import router from "./routes/index";
+const app = express();
 
 // starting with sprint 5 api
-mongoose.connect(
+connect(
   process.env.MONGODB_URI ||
     "mongodb://nils12:nils12@ds157707.mlab.com:57707/heroku_1bw65rfv",
   {
@@ -26,8 +21,8 @@ mongoose.connect(
     useUnifiedTopology: true,
   }
 );
-mongoose.Promise = global.Promise;
-mongoose.set("useFindAndModify", false);
+Promise = global.Promise;
+set("useFindAndModify", false);
 app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 app.use(
@@ -38,15 +33,15 @@ app.use(
 
 app.use(layouts);
 
-app.use(express.static("public"));
+app.use(static("public"));
 app.use(expressValidator());
 app.use(
-  express.urlencoded({
+  urlencoded({
     extended: false,
   })
 );
 
-app.use(express.json());
+app.use(json());
 
 app.use(cookieParser("secret_passcode"));
 app.use(
@@ -59,11 +54,11 @@ app.use(
 );
 app.use(connectFlash());
 
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(User.createStrategy());
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+app.use(initialize());
+app.use(session());
+use(createStrategy());
+serializeUser(_serializeUser());
+deserializeUser(_deserializeUser());
 
 app.use((req, res, next) => {
   res.locals.loggedIn = req.isAuthenticated();
@@ -76,6 +71,6 @@ app.use("/", router);
 
 const server = app.listen(app.get("port"), () => {
     console.log(`Server running at http://localhost:${app.get("port")}`);
-  }),
-  io = require("socket.io")(server);
+  });
+const io = require("socket.io")(server);
   require("./controllers/chatController")(io);
