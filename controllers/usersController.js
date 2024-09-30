@@ -4,7 +4,7 @@ import User, {
 	findById,
 	findByIdAndUpdate,
 	findByIdAndRemove,
-} from "../models/user";
+} from "../models/user.js";
 import { authenticate as _authenticate } from "passport";
 const getUserParams = (body) => {
 	return {

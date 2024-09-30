@@ -1,24 +1,22 @@
 import connectFlash from "connect-flash";
 import cookieParser from "cookie-parser";
 import express, { json, static as serveStatic, urlencoded } from "express";
-import layouts from "express-ejs-layouts";
 import expressSession from "express-session";
-import expressValidator from "express-validator";
 import methodOverride from "method-override";
-import mongoose, { connect, set } from "mongoose"; // Keine Zuweisung zu Promise notwendig
+import mongoose, { connect, set } from "mongoose";
 import {
 	deserializeUser,
 	initialize,
 	serializeUser,
-	session,
+	session as passportSession,
 	use,
 } from "passport";
 import {
 	deserializeUser as _deserializeUser,
 	serializeUser as _serializeUser,
 	createStrategy,
-} from "./models/user";
-import router from "./routes/index";
+} from "./models/user.js";
+import router from "./routes/index.js";
 
 const app = express();
 
@@ -33,19 +31,15 @@ connect(
 	},
 );
 
-// Setze mongoose.Promise auf die globale Promise-Implementierung
 mongoose.Promise = global.Promise;
 set("useFindAndModify", false);
 
-// Express-Einstellungen
 app.set("port", process.env.PORT || 3000);
-app.set("view engine", "ejs");
 
 // Middleware
 app.use(methodOverride("_method", { methods: ["POST", "GET"] }));
-app.use(layouts);
-app.use(serveStatic("public")); // Verwende den Alias für `static`
-app.use(expressValidator());
+app.use(serveStatic("public")); // Serviere statische Dateien
+
 app.use(
 	urlencoded({
 		extended: false,
@@ -63,12 +57,11 @@ app.use(
 );
 app.use(connectFlash());
 app.use(initialize());
-app.use(session());
+app.use(passportSession());
 use(createStrategy());
 serializeUser(_serializeUser());
 deserializeUser(_deserializeUser());
 
-// Globale Middleware für Flash-Nachrichten und Benutzer
 app.use((req, res, next) => {
 	res.locals.loggedIn = req.isAuthenticated();
 	res.locals.currentUser = req.user;
@@ -76,12 +69,24 @@ app.use((req, res, next) => {
 	next();
 });
 
-// Routen
-app.use("/", router);
+app.use("/api", router);
+
+app.use((req, res, next) => {
+	res.status(404).json({ success: false, message: "Endpoint not found" });
+});
+
+app.use((err, req, res, next) => {
+	console.error(err.stack);
+	res.status(500).json({ success: false, error: err.message });
+});
 
 // Server- und Socket.IO-Einrichtung
 const server = app.listen(app.get("port"), () => {
 	console.log(`Server running at http://localhost:${app.get("port")}`);
 });
-const io = require("socket.io")(server);
-require("./controllers/chatController")(io);
+import { Server } from "socket.io";
+const io = new Server(server);
+
+// Stelle sicher, dass `chatController.js` ebenfalls auf ES-Module umgestellt ist
+import chatController from "./controllers/chatController.js";
+chatController(io);
