@@ -1,14 +1,17 @@
+import mongoose from "mongoose"; // Importiere mongoose als Standard
+import passport from "passport"; // Importiere passport
 import cookieParser from "cookie-parser";
 import express, { json, static as serveStatic, urlencoded } from "express";
 import expressSession from "express-session";
 import methodOverride from "method-override";
-import mongoose, { connect, set } from "mongoose";
-import passport from "passport"; // Importiere passport direkt
 import User from "./models/user.js"; // Importiere das User-Modell
 import router from "./routes/index.js";
 
+const { connect, set } = mongoose;
+
 const app = express();
 
+// MongoDB-Verbindung
 connect(
 	process.env.MONGODB_URI ||
 		"mongodb://nils12:nils12@ds157707.mlab.com:57707/heroku_1bw65rfv",
@@ -24,9 +27,8 @@ set("useFindAndModify", false);
 
 app.set("port", process.env.PORT || 3000);
 
-// Middleware
 app.use(methodOverride("_method", { methods: ["POST", "GET"] }));
-app.use(serveStatic("public"));
+app.use(serveStatic("public")); // Serviere statische Dateien
 
 app.use(
 	urlencoded({
@@ -60,6 +62,7 @@ app.use((req, res) => {
 	});
 });
 
+// Fehlerbehandlung
 app.use((err, req, res, next) => {
 	console.error(err.stack);
 	res.status(500).json({
@@ -68,6 +71,7 @@ app.use((err, req, res, next) => {
 	});
 });
 
+// Server starten
 const server = app.listen(app.get("port"), () => {
 	console.log(`Server running at http://localhost:${app.get("port")}`);
 });
