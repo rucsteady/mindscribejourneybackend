@@ -1,5 +1,7 @@
 import User from "../models/user.js";
-import { authenticate as _authenticate } from "passport";
+import passport from "passport";
+
+const { authenticate: _authenticate } = passport;
 
 const getUserParams = (body) => {
 	return {

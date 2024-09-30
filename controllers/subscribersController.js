@@ -1,10 +1,4 @@
-import {
-	find,
-	create as _create,
-	findById,
-	findByIdAndUpdate,
-	findByIdAndRemove,
-} from "../models/subscriber.js";
+import Subscriber from "../models/subscriber.js";
 
 const getSubscriberParams = (body) => {
 	return {
@@ -15,7 +9,7 @@ const getSubscriberParams = (body) => {
 };
 
 export function index(req, res, next) {
-	find()
+	Subscriber.find()
 		.then((subscribers) => {
 			res.status(200).json({
 				success: true,
@@ -32,7 +26,7 @@ export function index(req, res, next) {
 
 export function create(req, res, next) {
 	const subscriberParams = getSubscriberParams(req.body);
-	_create(subscriberParams)
+	Subscriber.create(subscriberParams)
 		.then((subscriber) => {
 			res.status(201).json({
 				success: true,
@@ -50,7 +44,7 @@ export function create(req, res, next) {
 
 export function show(req, res, next) {
 	const subscriberId = req.params.id;
-	findById(subscriberId)
+	Subscriber.findById(subscriberId)
 		.then((subscriber) => {
 			if (subscriber) {
 				res.status(200).json({
@@ -75,7 +69,11 @@ export function show(req, res, next) {
 export function update(req, res, next) {
 	const subscriberId = req.params.id;
 	const subscriberParams = getSubscriberParams(req.body);
-	findByIdAndUpdate(subscriberId, { $set: subscriberParams }, { new: true })
+	Subscriber.findByIdAndUpdate(
+		subscriberId,
+		{ $set: subscriberParams },
+		{ new: true },
+	)
 		.then((subscriber) => {
 			if (subscriber) {
 				res.status(200).json({
@@ -101,7 +99,7 @@ export function update(req, res, next) {
 // Subscriber löschen
 export function deleteSubscriber(req, res, next) {
 	const subscriberId = req.params.id;
-	findByIdAndRemove(subscriberId)
+	Subscriber.findByIdAndRemove(subscriberId)
 		.then(() => {
 			res.status(200).json({
 				success: true,
