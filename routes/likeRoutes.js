@@ -1,31 +1,20 @@
-const router = require("express").Router();
-const likesController = require("../controllers/likesController");
+import express from "express";
+import * as likesController from "../controllers/likesController.js";
 
-router.get("/", likesController.index, likesController.indexView);
-router.get("/new", likesController.new);
-router.post(
-  "/create",
-  likesController.create,
-  likesController.redirectView
-);
-router.get("/:id", likesController.show, likesController.showView);
+const router = express.Router();
+
+router.get("/", likesController.index);
+
+router.post("/create", likesController.create);
+
+router.get("/:id", likesController.show);
+
 router.get("/:id/edit", likesController.edit);
-router.put(
-  "/:id/update",
-  likesController.update,
-  likesController.redirectView
-);
 
-router.delete(
-  "/:id/delete",
-  likesController.delete,
-  likesController.redirectView
-);
+router.put("/:id/update", likesController.update);
 
-router.post(
-  "/delete/Likes",
-  likesController.deleteLikes,
-  likesController.redirectView
-);
+router.delete("/:id/delete", likesController.deleteLike);
 
-module.exports = router;
+router.post("/delete/Likes", likesController.deleteLikes);
+
+export default router;
