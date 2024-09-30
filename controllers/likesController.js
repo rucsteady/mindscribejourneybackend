@@ -118,7 +118,6 @@ export function deleteLike(req, res, next) {
 		});
 }
 
-// Alle Likes löschen
 export function deleteLikes(req, res, next) {
 	deleteMany({})
 		.then(() => {
@@ -135,7 +134,6 @@ export function deleteLikes(req, res, next) {
 		});
 }
 
-// Antwort mit JSON-Objekt
 export function respondJSON(req, res) {
 	res.status(OK).json({
 		success: true,
@@ -143,7 +141,6 @@ export function respondJSON(req, res) {
 	});
 }
 
-// Fehlerbehandlung mit JSON-Antwort
 export function errorJSON(error, req, res, next) {
 	const errorObject = {
 		status: INTERNAL_SERVER_ERROR,
@@ -152,7 +149,6 @@ export function errorJSON(error, req, res, next) {
 	res.status(INTERNAL_SERVER_ERROR).json(errorObject);
 }
 
-// Benutzer-Likes filtern
 export function filterUserLikes(req, res, next) {
 	const currentUser = res.locals.currentUser;
 	if (currentUser) {

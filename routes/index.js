@@ -1,11 +1,10 @@
-const router = require("express").Router(),
-  userRoutes = require("./userRoutes"),
-  subscriberRoutes = require("./subscriberRoutes"),
-  likeRoutes = require("./likeRoutes"),
-  apiRoutes = require("./apiRoutes"),
-  errorRoutes = require("./errorRoutes"),
-  homeRoutes = require("./homeRoutes");
- 
+const router = require("express").Router();
+import userRoutes from "./userRoutes";
+import subscriberRoutes from "./subscriberRoutes";
+import likeRoutes from "./likeRoutes";
+import apiRoutes from "./apiRoutes";
+import errorRoutes from "./errorRoutes";
+import homeRoutes from "./homeRoutes";
 
 router.use("/users", userRoutes);
 router.use("/subscribers", subscriberRoutes);
@@ -14,4 +13,4 @@ router.use("/api", apiRoutes);
 router.use("/", homeRoutes);
 router.use("/", errorRoutes);
 
-module.exports = router;
+export default router;
