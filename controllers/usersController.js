@@ -82,13 +82,36 @@ export function logout(req, res, next) {
 	});
 	next();
 }
-
-export const authenticate = _authenticate("local", {
-	failureRedirect: "/users/login",
-	failureFlash: "Failed to login.",
-	successRedirect: "/",
-	successFlash: "Logged in!",
-});
+export const authenticate = (req, res, next) => {
+	passport.authenticate("local", (err, user, info) => {
+		if (err) {
+			return res.status(500).json({
+				success: false,
+				message: `Authentication error: ${err.message}`,
+			});
+		}
+		if (!user) {
+			return res.status(401).json({
+				success: false,
+				message: "Authentication failed.",
+				info: info.message,
+			});
+		}
+		req.logIn(user, (loginErr) => {
+			if (loginErr) {
+				return res.status(500).json({
+					success: false,
+					message: `Login error: ${loginErr.message}`,
+				});
+			}
+			return res.status(200).json({
+				success: true,
+				message: "Logged in successfully!",
+				data: user,
+			});
+		});
+	})(req, res, next);
+};
 
 export function show(req, res, next) {
 	const userId = req.params.id;
