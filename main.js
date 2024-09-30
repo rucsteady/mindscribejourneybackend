@@ -62,4 +62,24 @@ use(createStrategy());
 serializeUser(_serializeUser());
 deserializeUser(_deserializeUser());
 
-app.use;
+// Routen
+app.use("/api", router);
+
+app.use((req, res) => {
+	res.status(404).json({
+		success: false,
+		message: "Resource not found",
+	});
+});
+
+app.use((err, req, res, next) => {
+	console.error(err.stack);
+	res.status(500).json({
+		success: false,
+		message: err.message,
+	});
+});
+
+const server = app.listen(app.get("port"), () => {
+	console.log(`Server running at http://localhost:${app.get("port")}`);
+});
