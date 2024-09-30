@@ -1,4 +1,3 @@
-import connectFlash from "connect-flash";
 import cookieParser from "cookie-parser";
 import express, { json, static as serveStatic, urlencoded } from "express";
 import expressSession from "express-session";
@@ -55,7 +54,6 @@ app.use(
 		saveUninitialized: false,
 	}),
 );
-app.use(connectFlash());
 app.use(initialize());
 app.use(passportSession());
 use(createStrategy());
