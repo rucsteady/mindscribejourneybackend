@@ -1,7 +1,9 @@
-const Subscriber = require("./subscriber");
-const passportLocalMongoose = require("passport-local-mongoose");
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import passportLocalMongoose from "passport-local-mongoose";
+import Subscriber from "./subscriber.js"; // Stelle sicher, dass auch subscriber.js ES-Module verwendet
+
 const { Schema } = mongoose;
+
 const userSchema = new Schema(
 	{
 		name: {
@@ -22,7 +24,7 @@ const userSchema = new Schema(
 		},
 		zipCode: {
 			type: Number,
-			min: [10000, "Zip code too shirt"],
+			min: [10000, "Zip code too short"],
 			max: 99999,
 		},
 		likes: [
@@ -47,16 +49,13 @@ userSchema.virtual("fullName").get(function () {
 
 userSchema.pre("save", function (next) {
 	if (this.subscribedAccount === undefined) {
-		Subscriber.findOne({
-			email: this.email,
-		})
+		Subscriber.findOne({ email: this.email })
 			.then((subscriber) => {
 				this.subscribedAccount = subscriber;
 				next();
 			})
 			.catch((error) => {
-				console.log(`Error in connecting subscriber:
-   ${error.message}`);
+				console.log(`Error in connecting subscriber: ${error.message}`);
 				next(error);
 			});
 	} else {
@@ -64,8 +63,6 @@ userSchema.pre("save", function (next) {
 	}
 });
 
-userSchema.plugin(passportLocalMongoose, {
-	usernameField: "email",
-});
+userSchema.plugin(passportLocalMongoose, { usernameField: "email" });
 
-module.exports = mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema);
