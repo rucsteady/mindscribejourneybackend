@@ -62,31 +62,4 @@ use(createStrategy());
 serializeUser(_serializeUser());
 deserializeUser(_deserializeUser());
 
-app.use((req, res, next) => {
-	res.locals.loggedIn = req.isAuthenticated();
-	res.locals.currentUser = req.user;
-	res.locals.flashMessages = req.flash();
-	next();
-});
-
-app.use("/api", router);
-
-app.use((req, res, next) => {
-	res.status(404).json({ success: false, message: "Endpoint not found" });
-});
-
-app.use((err, req, res, next) => {
-	console.error(err.stack);
-	res.status(500).json({ success: false, error: err.message });
-});
-
-// Server- und Socket.IO-Einrichtung
-const server = app.listen(app.get("port"), () => {
-	console.log(`Server running at http://localhost:${app.get("port")}`);
-});
-import { Server } from "socket.io";
-const io = new Server(server);
-
-// Stelle sicher, dass `chatController.js` ebenfalls auf ES-Module umgestellt ist
-import chatController from "./controllers/chatController.js";
-chatController(io);
+app.use;
