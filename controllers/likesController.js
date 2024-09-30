@@ -1,15 +1,6 @@
-//controllers/likesController.js
-
 import { OK, INTERNAL_SERVER_ERROR } from "http-status-codes";
-import { findByIdAndUpdate } from "../models/user.js";
-import {
-	find,
-	create as _create,
-	findById,
-	findByIdAndUpdate as _findByIdAndUpdate,
-	findByIdAndRemove,
-	deleteMany,
-} from "../models/like.js";
+import User from "../models/user.js";
+import Like from "../models/like.js";
 
 const getLikeParams = (body) => {
 	return {
@@ -18,7 +9,7 @@ const getLikeParams = (body) => {
 };
 
 export function index(req, res, next) {
-	find()
+	Like.find()
 		.then((likes) => {
 			res.status(200).json({
 				success: true,
@@ -35,7 +26,7 @@ export function index(req, res, next) {
 
 export function create(req, res, next) {
 	const likeParams = getLikeParams(req.body);
-	_create(likeParams)
+	Like.create(likeParams) // Verwende direkt die Mongoose-Funktion create
 		.then((like) => {
 			res.status(201).json({
 				success: true,
@@ -53,7 +44,7 @@ export function create(req, res, next) {
 
 export function show(req, res, next) {
 	const likeId = req.params.id;
-	findById(likeId)
+	Like.findById(likeId)
 		.then((like) => {
 			if (like) {
 				res.status(200).json({
@@ -78,7 +69,7 @@ export function show(req, res, next) {
 export function update(req, res, next) {
 	const likeId = req.params.id;
 	const likeParams = getLikeParams(req.body);
-	_findByIdAndUpdate(likeId, { $set: likeParams }, { new: true })
+	Like.findByIdAndUpdate(likeId, { $set: likeParams }, { new: true })
 		.then((like) => {
 			if (like) {
 				res.status(200).json({
@@ -103,7 +94,7 @@ export function update(req, res, next) {
 
 export function deleteLike(req, res, next) {
 	const likeId = req.params.id;
-	findByIdAndRemove(likeId)
+	Like.findByIdAndRemove(likeId)
 		.then(() => {
 			res.status(200).json({
 				success: true,
@@ -119,7 +110,7 @@ export function deleteLike(req, res, next) {
 }
 
 export function deleteLikes(req, res, next) {
-	deleteMany({})
+	Like.deleteMany({})
 		.then(() => {
 			res.status(200).json({
 				success: true,
@@ -165,13 +156,12 @@ export function filterUserLikes(req, res, next) {
 	}
 }
 
-// Benutzer einem Like hinzufügen
 export function join(req, res, next) {
 	const likeId = req.params.id;
 	const currentUser = req.user;
 
 	if (currentUser) {
-		findByIdAndUpdate(currentUser._id, {
+		User.findByIdAndUpdate(currentUser._id, {
 			$addToSet: {
 				likes: likeId,
 			},

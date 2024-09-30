@@ -3,23 +3,12 @@ import express, { json, static as serveStatic, urlencoded } from "express";
 import expressSession from "express-session";
 import methodOverride from "method-override";
 import mongoose, { connect, set } from "mongoose";
-import {
-	deserializeUser,
-	initialize,
-	serializeUser,
-	session as passportSession,
-	use,
-} from "passport";
-import {
-	deserializeUser as _deserializeUser,
-	serializeUser as _serializeUser,
-	createStrategy,
-} from "./models/user.js";
+import passport from "passport"; // Importiere passport direkt
+import User from "./models/user.js"; // Importiere das User-Modell
 import router from "./routes/index.js";
 
 const app = express();
 
-// MongoDB-Verbindung
 connect(
 	process.env.MONGODB_URI ||
 		"mongodb://nils12:nils12@ds157707.mlab.com:57707/heroku_1bw65rfv",
@@ -37,7 +26,7 @@ app.set("port", process.env.PORT || 3000);
 
 // Middleware
 app.use(methodOverride("_method", { methods: ["POST", "GET"] }));
-app.use(serveStatic("public")); // Serviere statische Dateien
+app.use(serveStatic("public"));
 
 app.use(
 	urlencoded({
@@ -54,13 +43,14 @@ app.use(
 		saveUninitialized: false,
 	}),
 );
-app.use(initialize());
-app.use(passportSession());
-use(createStrategy());
-serializeUser(_serializeUser());
-deserializeUser(_deserializeUser());
 
-// Routen
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use("/api", router);
 
 app.use((req, res) => {
