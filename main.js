@@ -1,10 +1,10 @@
-import mongoose from "mongoose"; // Importiere mongoose als Standard
-import passport from "passport"; // Importiere passport
+import mongoose from "mongoose";
+import passport from "passport";
 import cookieParser from "cookie-parser";
 import express, { json, static as serveStatic, urlencoded } from "express";
 import expressSession from "express-session";
 import methodOverride from "method-override";
-import User from "./models/user.js"; // Importiere das User-Modell
+import User from "./models/user.js";
 import router from "./routes/index.js";
 
 const { connect, set } = mongoose;
@@ -13,22 +13,21 @@ const app = express();
 
 // MongoDB-Verbindung
 connect(
-	process.env.MONGODB_URI ||
-		"mongodb://nils12:nils12@ds157707.mlab.com:57707/heroku_1bw65rfv",
+	process.env.MONGODB_URI || "mongodb://localhost:27017/mindscribejourney", // Verwende die lokale MongoDB-Instanz
 	{
 		useNewUrlParser: true,
-		useCreateIndex: true,
 		useUnifiedTopology: true,
+		useCreateIndex: true,
 	},
 );
 
 mongoose.Promise = global.Promise;
 set("useFindAndModify", false);
 
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 3001);
 
 app.use(methodOverride("_method", { methods: ["POST", "GET"] }));
-app.use(serveStatic("public")); // Serviere statische Dateien
+app.use(serveStatic("public"));
 
 app.use(
 	urlencoded({

@@ -1,5 +1,6 @@
 import User from "../models/user.js";
 import passport from "passport";
+import { body, validationResult } from "express-validator";
 
 const { authenticate: _authenticate } = passport;
 
@@ -203,3 +204,24 @@ export function edit(req, res, next) {
 			});
 		});
 }
+
+export const validateUser = [
+	body("email").isEmail().withMessage("Email is invalid"),
+	body("zipCode")
+		.isInt()
+		.isLength({ min: 5, max: 5 })
+		.withMessage("Zip code is invalid"),
+	// Entferne diese Zeile, wenn kein Passwort benötigt wird:
+	// body("password").notEmpty().withMessage("Password cannot be empty"),
+
+	(req, res, next) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({
+				success: false,
+				errors: errors.array().map((err) => err.msg),
+			});
+		}
+		next();
+	},
+];
