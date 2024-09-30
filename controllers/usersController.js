@@ -179,3 +179,27 @@ export function deleteUsers(req, res, next) {
 			});
 		});
 }
+
+export function edit(req, res, next) {
+	const userId = req.params.id;
+	User.findById(userId)
+		.then((user) => {
+			if (user) {
+				res.status(200).json({
+					success: true,
+					data: user,
+				});
+			} else {
+				res.status(404).json({
+					success: false,
+					message: "User not found",
+				});
+			}
+		})
+		.catch((error) => {
+			res.status(500).json({
+				success: false,
+				message: `Error fetching user by ID: ${error.message}`,
+			});
+		});
+}

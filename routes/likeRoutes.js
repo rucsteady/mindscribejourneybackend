@@ -9,8 +9,6 @@ router.post("/create", likesController.create);
 
 router.get("/:id", likesController.show);
 
-router.get("/:id/edit", likesController.edit);
-
 router.put("/:id/update", likesController.update);
 
 router.delete("/:id/delete", likesController.deleteLike);
