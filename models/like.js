@@ -1,5 +1,7 @@
-import mongoose, { model } from "mongoose";
-const { Schema } = mongoose;
+import mongoose from "mongoose";
+
+const { Schema, model } = mongoose;
+
 const likeSchema = new Schema({
 	name: { type: String, required: true },
 });

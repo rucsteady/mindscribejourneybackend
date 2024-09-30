@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+
 const { Schema } = mongoose;
 
 const subscriberSchema = new Schema({
@@ -17,7 +18,6 @@ const subscriberSchema = new Schema({
 		type: Number,
 		min: [10000, "Zip code too short"],
 		max: 99999,
-		trim: true,
 	},
 	likes: [
 		{
@@ -31,4 +31,4 @@ subscriberSchema.methods.getInfo = function () {
 	return `Name: ${this.name} Email: ${this.email} Zip Code: ${this.zipCode}`;
 };
 
-module.exports = mongoose.model("Subscriber", subscriberSchema);
+export default mongoose.model("Subscriber", subscriberSchema);
