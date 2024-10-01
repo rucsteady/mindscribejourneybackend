@@ -1,107 +1,139 @@
-"use strict";
+import Subscriber from "../models/subscriber.js";
 
-const Subscriber = require("../models/subscriber"),
-    getSubscriberParams = (body) => {
-        return {
-            name: body.name,
-            email: body.email,
-            zipCode: parseInt(body.zipCode)
-        };
-    };
-module.exports = {
-    index: (req, res, next) => {
-        Subscriber.find()
-            .then(subscribers => {
-                res.locals.subscribers = subscribers;
-                next();
-            })
-            .catch(error => {
-                console.log(`Error fetching subscribers: ${error.message}`);
-                next(error);
-            });
-    },
-    indexView: (req, res) => {
-        res.render("subscribers/index");
-    },
-    new: (req, res) => {
-        res.render("subscribers/new");
-    },
-    create: (req, res, next) => {
-        let subscriberParams = getSubscriberParams(req.body);
-        Subscriber.create(subscriberParams)
-            .then(subscriber => {
-                res.locals.redirect = "/subscribers";
-                res.locals.subscriber = subscriber;
-                next();
-            })
-            .catch(error => {
-                console.log(`Error saving subscriber:${error.message}`);
-                next(error);
-            });
-    },
-    redirectView: (req, res, next) => {
-        let redirectPath = res.locals.redirect;
-        if (redirectPath) res.redirect(redirectPath);
-        else next();
-    },
-    show: (req, res, next) => {
-        var subscriberId = req.params.id;
-        Subscriber.findById(subscriberId)
-            .then(subscriber => {
-                res.locals.subscriber = subscriber;
-                next();
-            })
-            .catch(error => {
-                console.log(`Error fetching subscriber by ID:
-         ${error.message}`)
-                next(error);
-            });
-    },
-    showView: (req, res) => {
-        res.render("subscribers/show");
-    },
-    edit: (req, res, next) => {
-        var subscriberId = req.params.id;
-        Subscriber.findById(subscriberId)
-            .then(subscriber => {
-
-                res.render("subscribers/edit", {
-                    subscriber: subscriber
-                });
-            })
-            .catch(error => {
-                console.log(`Error fetching subscriber by ID: ${error.message}`);
-                next(error);
-            });
-    },
-    update: (req, res, next) => {
-        let subscriberId = req.params.id,
-            subscriberParams = getSubscriberParams(req.body);
-        Subscriber.findByIdAndUpdate(subscriberId, {
-                $set: subscriberParams
-            })
-            .then(subscriber => {
-                res.locals.redirect = `/subscribers/${subscriberId}`;
-                res.locals.subscriber = subscriber;
-                next();
-            })
-            .catch(error => {
-                console.log(`Error updating subscriber by ID:
-                     ${error.message}`);
-                next(error);
-            });
-    },
-    delete: (req, res, next) => {
-        let subscriberId = req.params.id;
-        Subscriber.findByIdAndRemove(subscriberId)
-            .then(() => {
-                res.locals.redirect = "/subscribers";
-                next();
-            })
-            .catch(error => {
-                console.log(`Error deleting subscriber by ID:
-                     ${error.message}`);
-                next();
-            });
-    }
+const getSubscriberParams = (body) => {
+	return {
+		name: body.name,
+		email: body.email,
+		zipCode: Number.parseInt(body.zipCode),
+	};
 };
+
+export function index(req, res, next) {
+	Subscriber.find()
+		.then((subscribers) => {
+			res.status(200).json({
+				success: true,
+				data: subscribers,
+			});
+		})
+		.catch((error) => {
+			res.status(500).json({
+				success: false,
+				message: `Error fetching subscribers: ${error.message}`,
+			});
+		});
+}
+
+export function edit(req, res, next) {
+	const subscriberId = req.params.id;
+	Subscriber.findById(subscriberId)
+		.then((subscriber) => {
+			if (subscriber) {
+				res.status(200).json({
+					success: true,
+					data: subscriber,
+				});
+			} else {
+				res.status(404).json({
+					success: false,
+					message: "Subscriber not found",
+				});
+			}
+		})
+		.catch((error) => {
+			res.status(500).json({
+				success: false,
+				message: `Error fetching subscriber by ID: ${error.message}`,
+			});
+		});
+}
+
+export function create(req, res, next) {
+	const subscriberParams = getSubscriberParams(req.body);
+	Subscriber.create(subscriberParams)
+		.then((subscriber) => {
+			res.status(201).json({
+				success: true,
+				data: subscriber,
+				message: "Subscriber created successfully",
+			});
+		})
+		.catch((error) => {
+			res.status(500).json({
+				success: false,
+				message: `Error saving subscriber: ${error.message}`,
+			});
+		});
+}
+
+export function show(req, res, next) {
+	const subscriberId = req.params.id;
+	Subscriber.findById(subscriberId)
+		.then((subscriber) => {
+			if (subscriber) {
+				res.status(200).json({
+					success: true,
+					data: subscriber,
+				});
+			} else {
+				res.status(404).json({
+					success: false,
+					message: "Subscriber not found",
+				});
+			}
+		})
+		.catch((error) => {
+			res.status(500).json({
+				success: false,
+				message: `Error fetching subscriber by ID: ${error.message}`,
+			});
+		});
+}
+
+export function update(req, res, next) {
+	const subscriberId = req.params.id;
+	const subscriberParams = getSubscriberParams(req.body);
+	Subscriber.findByIdAndUpdate(
+		subscriberId,
+		{ $set: subscriberParams },
+		{ new: true },
+	)
+		.then((subscriber) => {
+			if (subscriber) {
+				res.status(200).json({
+					success: true,
+					data: subscriber,
+					message: "Subscriber updated successfully",
+				});
+			} else {
+				res.status(404).json({
+					success: false,
+					message: "Subscriber not found",
+				});
+			}
+		})
+		.catch((error) => {
+			res.status(500).json({
+				success: false,
+				message: `Error updating subscriber by ID: ${error.message}`,
+			});
+		});
+}
+
+// Subscriber löschen
+export function deleteSubscriber(req, res, next) {
+	const subscriberId = req.params.id;
+	Subscriber.findByIdAndRemove(subscriberId)
+		.then(() => {
+			res.status(200).json({
+				success: true,
+				message: "Subscriber deleted successfully",
+			});
+		})
+		.catch((error) => {
+			res.status(500).json({
+				success: false,
+				message: `Error deleting subscriber by ID: ${error.message}`,
+			});
+		});
+}

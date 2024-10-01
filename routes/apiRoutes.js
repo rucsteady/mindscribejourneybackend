@@ -1,19 +1,22 @@
-"use strict";
+import express from "express";
+import * as likesController from "../controllers/likesController.js";
 
-const router = require("express").Router(),
-  likesController = require("../controllers/likesController");
+const router = express.Router();
 
 router.get(
-  "/likes",
-  likesController.index,
-  likesController.filterUserLikes,
-  likesController.respondJSON
+	"/likes",
+	likesController.index,
+	likesController.filterUserLikes,
+	likesController.respondJSON,
 );
+
 router.get(
-  "/likes/:id/join",
-  likesController.join,
-  likesController.respondJSON
+	"/likes/:id/join",
+	likesController.join,
+	likesController.respondJSON,
 );
+
+// Fehlerbehandlung als JSON-Antwort
 router.use(likesController.errorJSON);
 
-module.exports = router;
+export default router;

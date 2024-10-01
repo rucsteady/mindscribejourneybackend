@@ -1,81 +1,76 @@
-const express = require("express"),
-  layouts = require("express-ejs-layouts"),
-  app = express(),
-  router = require("./routes/index"),
-  homeController = require("./controllers/homeController"),
-  errorController = require("./controllers/errorController"),
-  subscribersController = require("./controllers/subscribersController.js"),
-  usersController = require("./controllers/usersController.js"),
-  likesController = require("./controllers/likesController.js"),
-  mongoose = require("mongoose"),
-  methodOverride = require("method-override"),
-  passport = require("passport"),
-  cookieParser = require("cookie-parser"),
-  expressSession = require("express-session"),
-  expressValidator = require("express-validator"),
-  connectFlash = require("connect-flash"),
-  User = require("./models/user");
+import mongoose from "mongoose";
+import passport from "passport";
+import cookieParser from "cookie-parser";
+import express, { json, static as serveStatic, urlencoded } from "express";
+import expressSession from "express-session";
+import methodOverride from "method-override";
+import User from "./models/user.js";
+import router from "./routes/index.js";
 
-// starting with sprint 5 api
-mongoose.connect(
-  process.env.MONGODB_URI ||
-    "mongodb://nils12:nils12@ds157707.mlab.com:57707/heroku_1bw65rfv",
-  {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  }
+const { connect, set } = mongoose;
+
+const app = express();
+
+// MongoDB-Verbindung
+connect(
+	process.env.MONGODB_URI || "mongodb://localhost:27017/mindscribejourney", // Verwende die lokale MongoDB-Instanz
+	{
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+	},
 );
+
 mongoose.Promise = global.Promise;
-mongoose.set("useFindAndModify", false);
-app.set("port", process.env.PORT || 3000);
-app.set("view engine", "ejs");
+set("useFindAndModify", false);
+
+app.set("port", process.env.PORT || 3001);
+
+app.use(methodOverride("_method", { methods: ["POST", "GET"] }));
+app.use(serveStatic("public"));
+
 app.use(
-  methodOverride("_method", {
-    methods: ["POST", "GET"],
-  })
+	urlencoded({
+		extended: false,
+	}),
 );
-
-app.use(layouts);
-
-app.use(express.static("public"));
-app.use(expressValidator());
-app.use(
-  express.urlencoded({
-    extended: false,
-  })
-);
-
-app.use(express.json());
-
+app.use(json());
 app.use(cookieParser("secret_passcode"));
 app.use(
-  expressSession({
-    secret: "secret_passcode",
-    cookie: { maxAge: 4000000 },
-    resave: false,
-    saveUninitialized: false,
-  })
+	expressSession({
+		secret: "secret_passcode",
+		cookie: { maxAge: 4000000 },
+		resave: false,
+		saveUninitialized: false,
+	}),
 );
-app.use(connectFlash());
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req, res, next) => {
-  res.locals.loggedIn = req.isAuthenticated();
-  res.locals.currentUser = req.user;
-  res.locals.flashMessages = req.flash();
-  next();
+app.use("/api", router);
+
+app.use((req, res) => {
+	res.status(404).json({
+		success: false,
+		message: "Resource not found",
+	});
 });
 
-app.use("/", router);
+// Fehlerbehandlung
+app.use((err, req, res, next) => {
+	console.error(err.stack);
+	res.status(500).json({
+		success: false,
+		message: err.message,
+	});
+});
 
+// Server starten
 const server = app.listen(app.get("port"), () => {
-    console.log(`Server running at http://localhost:${app.get("port")}`);
-  }),
-  io = require("socket.io")(server);
-  require("./controllers/chatController")(io);
+	console.log(`Server running at http://localhost:${app.get("port")}`);
+});

@@ -1,10 +1,8 @@
-const router = require("express").Router();
-const homeController = require("../controllers/homeController");
+import express from "express";
+import * as homeController from "../controllers/homeController.js";
 
+const router = express.Router();
 
-router.get("/shirts", homeController.getShirts);
 router.get("/", homeController.getIndex);
-router.post("/create", homeController.create,homeController.redirectView );
-router.get("/chat", homeController.chat)
 
-module.exports = router;
+export default router;

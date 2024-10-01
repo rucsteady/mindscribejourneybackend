@@ -1,9 +1,9 @@
-"use strict";
+import mongoose from "mongoose";
 
-const mongoose = require("mongoose"),
-  { Schema } = mongoose,
-  likeSchema = new Schema({
-    name: { type: String, required: true },
-  });
+const { Schema, model } = mongoose;
 
-module.exports = mongoose.model("Like", likeSchema);
+const likeSchema = new Schema({
+	name: { type: String, required: true },
+});
+
+export default model("Like", likeSchema);

@@ -1,7 +1,9 @@
-const router = require("express").Router();
-const errorController = require("../controllers/errorController");
+import express from "express";
+import * as errorController from "../controllers/errorController.js";
+
+const router = express.Router();
 
 router.use(errorController.respondInternalError);
 router.use(errorController.respondNoResourceFound);
 
-module.exports = router;
+export default router;
